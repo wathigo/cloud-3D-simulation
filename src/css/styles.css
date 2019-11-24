@@ -29,5 +29,16 @@
   position: absolute;
   top: 256px;
   width: 20px;
-  background-color: #a52a2a 
+  background-color: #a52a2a
+}
+
+.cloudLayer {
+  height: 256px;
+  left: 50%;
+  margin-left: -128px;
+  margin-top: -128px;
+  position: absolute;
+  top: 50%;
+  width: 256px;
+  background-color: rgba(255, 255, 255, 0.4);
 }

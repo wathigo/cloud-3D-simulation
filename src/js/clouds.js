@@ -32,17 +32,56 @@ const Clouds = (() => {
     that is translated randomly into world space.
     Each axis goes from -256 to 256 pixels.
   */
+
+  const random_x = (min=-256, max=256) => {
+    return getRandomInt(min, max);
+  }
+
+  const random_y = (min=-256, max=256) => {
+    return getRandomInt(min, max);
+  }
+
+  const random_z = (min=-256, max=256) => {
+    return getRandomInt(min, max);
+  }
+
+  const random_a = (min=-180, max=180) => {
+    return getRandomInt(min, max);
+  }
+
+  const random_s = () => {
+    return Math.random()
+  }
   const createCloud = () => {
     const div = document.createElement( 'div'  );
     div.className = 'cloudBase';
-    let random_x = getRandomInt(-256, 256);
-    let random_y = getRandomInt(-256, 256);
-    let random_z = getRandomInt(-256, 256);
-    var t = 'translateX( ' + random_x + 'px ) \
-      translateY( ' + random_y + 'px ) \
-      translateZ( ' + random_z + 'px )';
+    var t = 'translateX( ' + random_x() + 'px ) \
+      translateY( ' + random_y() + 'px ) \
+      translateZ( ' + random_z() + 'px )';
     div.style.transform = t;
     world.appendChild( div );
+
+    for( var j = 0; j < 4 + Math.round( Math.random() * 10 ); j++ ) {
+    var cloud = document.createElement( 'div' );
+    cloud.className = 'cloudLayer';
+
+    cloud.data = {
+      x: random_x(),
+      y: random_y(),
+      z: random_z(),
+      a: random_a(),
+      s: random_s()
+    };
+    var t = 'translateX( ' + random_x() + 'px ) \
+      translateY( ' + random_y() + 'px ) \
+      translateZ( ' + random_z() + 'px ) \
+      rotateZ( ' + random_a() + 'deg ) \
+      scale( ' + random_s() + ' )';
+    cloud.style.transform = t;
+
+    div.appendChild( cloud );
+    layers.push( cloud );
+  }
 
     return div;
 
