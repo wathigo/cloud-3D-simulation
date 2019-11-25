@@ -10,10 +10,27 @@ const Clouds = (() => {
     Clears the DOM of previous clouds bases
     and generates a new set of cloud bases
   */
-  const generate = (world) => {
 
-    objects = [];
-    layers = [];
+  const update = (worldXAngle, worldYAngle, layers) => {
+    for( var j = 0; j < layers.length; j+=1 ) {
+      var layer = layers[ j ];
+      layer.data.a += layer.data.speed;
+      var t = 'translateX( ' + layer.data.x + 'px ) \
+        translateY( ' + layer.data.y + 'px ) \
+        translateZ( ' + layer.data.z + 'px ) \
+        rotateY( ' + ( - worldYAngle ) + 'deg ) \
+        rotateX( ' + ( - worldXAngle ) + 'deg ) \
+        scale( ' + layer.data.s + ')';
+      layer.style.transform = t;
+    }
+
+    requestAnimationFrame( update );
+
+}
+
+  const generate = (world, worldXAngle, worldYAngle) => {
+
+    let objects = [];
 
     if ( world.hasChildNodes() ) {
       while ( world.childNodes.length >= 1 ) {
@@ -24,7 +41,12 @@ const Clouds = (() => {
     for( var j = 0; j < 5; j++ ) {
       objects.push( createCloud() );
     }
+    let layers = document.querySelectorAll('.cloudLayer');
 
+    let nodeList = Array.from(layers);
+    console.log(typeof nodeList)
+
+    update(worldXAngle, worldYAngle, nodeList)
   }
 
   /*
@@ -62,8 +84,9 @@ const Clouds = (() => {
     world.appendChild( div );
 
     for( var j = 0; j < 4 + Math.round( Math.random() * 10 ); j++ ) {
-    var cloud = document.createElement( 'div' );
+    var cloud = document.createElement( 'img' );
     cloud.className = 'cloudLayer';
+    cloud.src = '../src/images/cloud.png'
 
     cloud.data = {
       x: random_x(),

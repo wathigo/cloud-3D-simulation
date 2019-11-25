@@ -39,7 +39,7 @@ const transform = (() => {
 
     }
 
-    Clouds.generate(world);
+    Clouds.generate(world, worldXAngle, worldYAngle);
 })();
 
 export default transform;
